@@ -1,10 +1,25 @@
-const { Sequelize } = require('sequelize');
+const express = require('express');
+const fs = require('fs');
+const cors = require('cors');
+const app = express();
+const busboy = require('connect-busboy');
+const path = require('path');
+const db = require('./db')
+const User = require('./routes/user.js');
+const File = require('./routes/file.js');
+// apps
+app.use(busboy());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(cors());
 
-const sequelize = new Sequelize('mysql://bcf8385c77447b:fde342c3@eu-cdbr-west-03.cleardb.net/heroku_52ddba0528fe872?reconnect=true');
+// db
+db.authenticate()
+ .then(() => console.log('Connection has been established successfully.'))
+ .catch((error) =>  console.error('Unable to connect to the database:', error))
+db.sync()
+// routes
+app.use('/', User);
+app.use('/file', File);
 
-try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+  app.listen(3000);
