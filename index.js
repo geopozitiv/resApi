@@ -1,14 +1,13 @@
 const express = require('express');
-const fs = require('fs');
 const cors = require('cors');
 const app = express();
-// const busboy = require('connect-busboy');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const db = require('./db')
 const User = require('./routes/user.js');
 const File = require('./routes/file.js');
 // apps
-// app.use(busboy());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(cors());

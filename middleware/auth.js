@@ -3,7 +3,6 @@ const User = require('../models/user')
 const Session = require('../models/session');
 
 const auth = async (req, res, next) => {
-    // console.log(req.header('Authorization').replace('Bearer ', ''), 'req.header')
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         const session = await Session.findOne({where: { token: token}})

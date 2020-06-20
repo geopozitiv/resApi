@@ -9,15 +9,13 @@ const jwt = require('jsonwebtoken')
 router.post('/signin', async function (req, res) {
    try {
     const {email, password} = req.body
-    const {dataValues} = await User.findOne({where: {id: email}});
-    // console.group(['dataValues'])
-    // console.log(password)
-    // console.log(dataValues)
+    const user = await User.findOne({where: {id: email}});
 
-    if (!dataValues) {
+    if (!user) {
         res.status(401).send({ error: "Unable to login: email or password is invalid" })
     }
-    const isMatch = await bcrypt.compare(password, dataValues.password)
+    
+    const isMatch = await bcrypt.compare(password, user.dataValues.password)
 
     if (!isMatch) {
         res.status(401).send({ error: "Unable to login: email or password is invalid" })
@@ -25,7 +23,7 @@ router.post('/signin', async function (req, res) {
         const token = await jwt.sign({ id: email.toString()}, process.env.JWT_SECRET,{ expiresIn: 3620 })
         const refreshToken = await jwt.sign({id: email.toString()}, process.env.JWT_REFRESH, { expiresIn: 4000 * 600})
         await Session.create({token, refreshToken, email})
-        res.status(201).send({id:dataValues.id, token, refreshToken })
+        res.status(201).send({id:user.dataValues.id, token, refreshToken })
     }
     } catch (e) {
         res.status(401).send({ error: e.message })

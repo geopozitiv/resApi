@@ -27,11 +27,5 @@ Session.init({
   modelName: 'Session' // We need to choose the model name
 });
 
-// User.beforeCreate(async (user, options, cb) => {
-//     return await bcrypt.hash(user.dataValues.password, 8)
-//     .then(hashd => {
-//       return user.dataValues.password = hashd
-//     })
-// });
 
 module.exports = Session
