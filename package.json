@@ -11,13 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "busboy": "^0.3.1",
     "connect-busboy": "0.0.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "sequelize": "^5.21.13",
+    "uniqid": "^5.2.0",
     "validator": "^13.1.1"
   },
   "devDependencies": {
